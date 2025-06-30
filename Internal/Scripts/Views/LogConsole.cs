@@ -26,6 +26,7 @@ namespace MobileConsole
 		private static event Callback OnAllSubViewClosed;
         private static event Callback OnShareAllLogRequest;
 
+		public static event Action<Command> OnCommandCreated;
 		public delegate void EventCommandsCreated(ReadOnlyCollection<Command> commands);
 		public static event EventCommandsCreated OnCommandsCreated;
 		private static bool _hasCommandsCreated = false;
@@ -128,6 +129,8 @@ namespace MobileConsole
 				if (attribute != null)
 				{
 					Command command = (Command)Activator.CreateInstance(commandType);
+					OnCommandCreated?.Invoke(command);
+					
 					command.CacheVariableInfos(commandType);
 					command.CacheCustomButtonInfos(commandType, typeof(ButtonAttribute));
 					command.info.CopyData(attribute, commandType);
