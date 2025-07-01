@@ -159,6 +159,8 @@ namespace MobileConsole
 				if (attribute != null)
 				{
 					Command command = (Command)Activator.CreateInstance(commandType);
+					OnCommandCreated?.Invoke(command);
+					
 					command.CacheVariableInfos(commandType);
 					command.info.CopyData(attribute, commandType);
 
